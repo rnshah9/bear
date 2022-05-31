@@ -1,0 +1,5 @@
+project: rnshah9/bear
+target: bear
+
+cmds:
+  - cmd: /repo/build/stage/bin/citnames --input @@
