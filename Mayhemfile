@@ -2,4 +2,4 @@ project: bear
 target: citnames
 
 cmds:
-  - cmd: /repo/build/stage/bin/citnames --input @@
+  - cmd: /install/bin/citnames --input @@
