@@ -19,9 +19,13 @@
 
 #include "libmain/ApplicationFromArgs.h"
 
+#include <fmt/ostream.h>
 #include <spdlog/spdlog.h>
-#include <spdlog/fmt/ostr.h>
 #include <spdlog/sinks/stdout_sinks.h>
+
+#ifdef FMT_NEEDS_OSTREAM_FORMATTER
+template <> struct fmt::formatter<flags::Arguments> : ostream_formatter {};
+#endif
 
 namespace ps {
 

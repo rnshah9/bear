@@ -25,8 +25,12 @@
 #include "libsys/Os.h"
 #include "libsys/Path.h"
 
+#ifdef HAVE_FMT_STD_H
+#include <fmt/std.h>
+#endif
+#include <fmt/ostream.h>
+#include <fmt/ranges.h>
 #include <spdlog/spdlog.h>
-#include <spdlog/fmt/ostr.h>
 
 #include <algorithm>
 #include <iterator>
@@ -68,24 +72,6 @@ namespace {
         { "TANGLE", "tangle" },
         { "CTANGLE", "ctangle" }
     };
-
-    struct MapHolder {
-        const std::map<std::string, fs::path>& values;
-    };
-
-    std::ostream& operator<<(std::ostream& os, const MapHolder& arguments)
-    {
-        os << '[';
-        for (auto it = arguments.values.begin(); it != arguments.values.end(); ++it) {
-            if (it != arguments.values.begin()) {
-                os << ", ";
-            }
-            os << "{ \"" << it->first << "\": \"" << it->second.string() << "\" }";
-        }
-        os << ']';
-
-        return os;
-    }
 
     rust::Result<std::list<fs::path>> list_dir(const fs::path& path)
     {
@@ -171,8 +157,8 @@ namespace ic {
             , override_(std::move(override))
     {
         spdlog::debug("session initialized with: wrapper_dir: {}", wrapper_dir_);
-        spdlog::debug("session initialized with: mapping: {}", MapHolder { mapping_ });
-        spdlog::debug("session initialized with: override: {}", MapHolder { override_ });
+        spdlog::debug("session initialized with: mapping: {}", mapping_);
+        spdlog::debug("session initialized with: override: {}", override_);
     }
 
     rust::Result<ic::Execution> WrapperSession::resolve(const ic::Execution &execution) const
